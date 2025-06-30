@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+    integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+
+<body>
+  <div class="min-h-screen py-12 px-4">
+    <!-- Logo Section -->
+    <div class="max-w-6xl mx-auto mb-8 text-center">
+      <div class="inline-flex items-center justify-center mb-4">
+        <!-- <svg class="w-10 h-10" style="color: #8b7355;" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M19 9.3V4h-3v2.6L12 3L2 12h3v8h6v-6h2v6h6v-8h3L19 9.3zm-9 .7c0-1.1.9-2 2-2s2 .9 2 2h-4z"/>
+          </svg> -->
+        <img src="assets/images/logo-removebg-preview.png" class="h-25" alt="" />
+      </div>
+      <h1 class="text-4xl font-bold gradient-text mb-2">
+        Premium Properties
+      </h1>
+      <p class="text-lg" style="color: #959595">
+        Exklusive Immobilien für anspruchsvolle Kunden
+      </p>
+    </div>
+
+    <!-- Main Form Container -->
+    <div class="max-w-6xl mx-auto glass-effect rounded-3xl shadow-2xl overflow-hidden">
+      <!-- Header -->
+      <div class="bg-gradient-to-r from-stone-50 to-stone-100 px-8 py-6 border-b border-stone-200">
+        <h2 class="text-3xl font-bold gradient-text">Immobilienformular</h2>
+        <p class="mt-2" style="color: #959595">
+          Erfassen Sie hier alle Details Ihrer Immobilie
+        </p>
+      </div>
+
+      <form class="p-8 space-y-8">
+        <!-- Media Section -->
+        <div class="space-y-6">
+          <h3 class="text-xl font-semibold gradient-text border-b border-stone-200 pb-2">
+            Medien & Präsentation
+          </h3>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Title -->
+            <div class="lg:col-span-2">
+              <label class="block text-sm font-medium mb-2" style="color: #e6dbcd" for="title">Titel</label>
+              <input type="text" id="title" name="title"
+                class="w-full rounded-xl border border-stone-300 px-4 py-3 input-focus hover-lift transition-all duration-300"
+                style="color: #e6dbcd" placeholder="Luxuriöse Penthouse-Wohnung mit Panoramablick" />
+            </div>
+
+            <!-- Subtitle -->
+            <div class="lg:col-span-2">
+              <label class="block text-sm font-medium mb-2" style="color: #e6dbcd" for="subtitle">Untertitel</label>
+              <input type="text" id="subtitle" name="subtitle"
+                class="w-full rounded-xl border border-stone-300 px-4 py-3 input-focus hover-lift transition-all duration-300"
+                style="color: #e6dbcd" placeholder="Exklusives Wohnen in bester Lage" />
+            </div>
+
+            <!-- Title Image -->
+            <div class="lg:col-span-2">
+              <label class="block text-sm font-medium mb-2" style="color: #e6dbcd" for="title_image">Titelbild</label>
+              <div class="file-upload-area rounded-xl p-6 text-center relative" id="title-upload-area">
+                <input type="file" id="title_image" name="title_image" accept="image/*" class="hidden"
+                  onchange="handleImageUpload(this, 'title-preview')" />
+                <div id="title-upload-placeholder">
+                  <label for="title_image" class="cursor-pointer">
+                    <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-stone-100 flex items-center justify-center">
+                      <svg class="w-6 h-6" style="color: #8b7355" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                          d="M19 7v2.99s-1.99.01-2 0V7h-3s.01-1.99 0-2h3V2h2v3h3v2h-3zm-3 4V8h-3V5H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-8h-3zM5 19l3-4 2 3 3-4 4 5H5z" />
+                      </svg>
+                    </div>
+                    <p class="text-sm font-medium" style="color: #8b7355">
+                      Hauptbild hochladen
+                    </p>
+                    <p class="text-xs mt-1" style="color: #959595">
+                      PNG, JPG bis zu 10MB
+                    </p>
+                  </label>
+                </div>
+                <div id="title-preview" class="hidden">
+                  <img class="image-preview mx-auto" />
+                  <button type="button" class="remove-image" onclick="removeImage('title_image', 'title-preview')">
+                    ×
+                  </button>
+                  <p class="text-xs mt-2" style="color: #8b7355">
+                    Hauptbild ausgewählt
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Floor Image -->
+            <div>
+              <label class="block text-sm font-medium mb-2" style="color: #e6dbcd"
+                for="floor_image">Grundrissbild</label>
+              <div class="file-upload-area rounded-xl p-4 text-center relative" id="floor-upload-area">
+                <input type="file" id="floor_image" name="floor_image" accept="image/*" class="hidden"
+                  onchange="handleImageUpload(this, 'floor-preview')" />
+                <div id="floor-upload-placeholder">
+                  <label for="floor_image" class="cursor-pointer">
+                    <div class="w-8 h-8 mx-auto mb-2 rounded-full bg-stone-100 flex items-center justify-center">
+                      <svg class="w-4 h-4" style="color: #8b7355" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                          d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                      </svg>
+                    </div>
+                    <p class="text-xs" style="color: #8b7355">Grundriss</p>
+                  </label>
+                </div>
+                <div id="floor-preview" class="hidden">
+                  <img class="image-preview-small mx-auto" />
+                  <button type="button" class="remove-image" onclick="removeImage('floor_image', 'floor-preview')">
+                    ×
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Multi Images -->
+            <div>
+              <label class="block text-sm font-medium mb-2" style="color: #e6dbcd" for="multi_images">Weitere
+                Bilder</label>
+              <div class="file-upload-area rounded-xl p-4 text-center relative" id="multi-upload-area">
+                <input type="file" id="multi_images" name="multi_images" accept="image/*" multiple class="hidden"
+                  onchange="handleMultiImageUpload(this)" />
+                <div id="multi-upload-placeholder">
+                  <label for="multi_images" class="cursor-pointer">
+                    <div class="w-8 h-8 mx-auto mb-2 rounded-full bg-stone-100 flex items-center justify-center">
+                      <svg class="w-4 h-4" style="color: #8b7355" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <p class="text-xs" style="color: #8b7355">Galerie</p>
+                  </label>
+                </div>
+                <div id="multi-preview" class="hidden">
+                  <div class="multi-image-grid" id="multi-image-container"></div>
+                  <p class="text-xs mt-2" style="color: #8b7355">
+                    Bilder ausgewählt
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <!-- Property Details -->
+        <div class="space-y-6">
+          <h3 class="text-xl font-semibold gradient-text border-b border-stone-200 pb-2">
+            Objektdetails
+          </h3>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Objektart -->
+            <div>
+              <label class="block text-sm font-medium mb-2" style="color: #e6dbcd" for="objektart">Objektart</label>
+              <input type="text" id="objektart" name="objektart"
+                class="w-full rounded-xl border border-stone-300 px-4 py-3 input-focus hover-lift transition-all duration-300"
+                style="color: #e6dbcd" placeholder="z. B. Penthouse" />
+            </div>
+
+            <!-- Wohnfläche -->
+            <div>
+              <label class="block text-sm font-medium mb-2" style="color: #e6dbcd" for="wohnfläche">Wohnfläche
+                gesamt</label>
+              <input type="text" id="wohnfläche" name="wohnfläche"
+                class="w-full rounded-xl border border-stone-300 px-4 py-3 input-focus hover-lift transition-all duration-300"
+                style="color: #e6dbcd" placeholder="z. B. ca. 231 m²" />
+            </div>
+
+            <!-- Zimmer -->
+            <div>
+              <label class="block text-sm font-medium mb-2" style="color: #e6dbcd" for="zimmer">Zimmer</label>
+              <input type="number" id="zimmer" name="zimmer"
+                class="w-full rounded-xl border border-stone-300 px-4 py-3 input-focus hover-lift transition-all duration-300"
+                style="color: #e6dbcd" />
+            </div>
+
+            <!-- Etage -->
+            <div>
+              <label class="block text-sm font-medium mb-2" style="color: #e6dbcd" for="etage">Etage</label>
+              <input type="number" id="etage" name="etage"
+                class="w-full rounded-xl border border-stone-300 px-4 py-3 input-focus hover-lift transition-all duration-300"
+                style="color: #e6dbcd" />
+            </div>
+
+            <!-- Balkon -->
+            <div>
+              <label class="block text-sm font-medium mb-2" style="color: #e6dbcd" for="balkon">Balkon</label>
+              <input type="number" id="balkon" name="balkon"
+                class="w-full rounded-xl border border-stone-300 px-4 py-3 input-focus hover-lift transition-all duration-300"
+                style="color: #e6dbcd" />
+            </div>
+
+            <!-- Baujahr -->
+            <div>
+              <label class="block text-sm font-medium mb-2" style="color: #e6dbcd" for="baujahr">Baujahr</label>
+              <input type="number" id="baujahr" name="baujahr"
+                class="w-full rounded-xl border border-stone-300 px-4 py-3 input-focus hover-lift transition-all duration-300"
+                style="color: #e6dbcd" />
+            </div>
+
+            <!-- Einbauküche -->
+            <div>
+              <label class="block text-sm font-medium mb-2" style="color: #e6dbcd" for="einbauküche">Einbauküche</label>
+              <select id="einbauküche" name="einbauküche"
+                class="w-full rounded-xl border border-stone-300 px-4 py-3 input-focus hover-lift transition-all duration-300"
+                style="color: #e6dbcd">
+                <option value="Ja">Ja</option>
+                <option value="Nein">Nein</option>
+              </select>
+            </div>
+
+            <!-- Zustand -->
+            <div>
+              <label class="block text-sm font-medium mb-2" style="color: #e6dbcd" for="zustand">Zustand</label>
+              <input type="text" id="zustand" name="zustand"
+                class="w-full rounded-xl border border-stone-300 px-4 py-3 input-focus hover-lift transition-all duration-300"
+                style="color: #e6dbcd" placeholder="z. B. High-End-Luxury" />
+            </div>
+          </div>
+
+          <!-- Badezimmer - Full Width -->
+          <div>
+            <label class="block text-sm font-medium mb-2" style="color: #e6dbcd" for="badezimmer">Badezimmer</label>
+            <input type="text" id="badezimmer" name="badezimmer"
+              class="w-full rounded-xl border border-stone-300 px-4 py-3 input-focus hover-lift transition-all duration-300"
+              style="color: #e6dbcd" placeholder="z. B. Zwei Vollbäder und ein Gäste-WC" />
+          </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <!-- Location Section -->
+        <div class="space-y-6">
+          <h3 class="text-xl font-semibold gradient-text border-b border-stone-200 pb-2">
+            Lage & Adresse
+          </h3>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Straße -->
+            <div class="md:col-span-2">
+              <label class="block text-sm font-medium mb-2" style="color: #e6dbcd" for="straße">Straße</label>
+              <input type="text" id="straße" name="straße"
+                class="w-full rounded-xl border border-stone-300 px-4 py-3 input-focus hover-lift transition-all duration-300"
+                style="color: #e6dbcd" placeholder="z. B. Alsterufer 10" />
+            </div>
+
+            <!-- PLZ -->
+            <div>
+              <label class="block text-sm font-medium mb-2" style="color: #e6dbcd" for="plz">PLZ</label>
+              <input type="text" id="plz" name="plz"
+                class="w-full rounded-xl border border-stone-300 px-4 py-3 input-focus hover-lift transition-all duration-300"
+                style="color: #e6dbcd" />
+            </div>
+
+            <!-- Ort -->
+            <div>
+              <label class="block text-sm font-medium mb-2" style="color: #e6dbcd" for="ort">Ort</label>
+              <input type="text" id="ort" name="ort"
+                class="w-full rounded-xl border border-stone-300 px-4 py-3 input-focus hover-lift transition-all duration-300"
+                style="color: #e6dbcd" />
+            </div>
+          </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <!-- Financial Section -->
+        <div class="space-y-6">
+          <h3 class="text-xl font-semibold gradient-text border-b border-stone-200 pb-2">
+            Preise & Konditionen
+          </h3>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Kaufpreis -->
+            <div>
+              <label class="block text-sm font-medium mb-2" style="color: #e6dbcd" for="kaufpreis">Kaufpreis</label>
+              <input type="text" id="kaufpreis" name="kaufpreis"
+                class="w-full rounded-xl border border-stone-300 px-4 py-3 input-focus hover-lift transition-all duration-300"
+                style="color: #e6dbcd" placeholder="z. B. 5.950.000,00 EUR" />
+            </div>
+
+            <!-- Makler Courtage Käufer -->
+            <div>
+              <label class="block text-sm font-medium mb-2" style="color: #e6dbcd" for="courtage">Makler Courtage
+                Käufer</label>
+              <input type="text" id="courtage" name="courtage"
+                class="w-full rounded-xl border border-stone-300 px-4 py-3 input-focus hover-lift transition-all duration-300"
+                style="color: #e6dbcd" placeholder="z. B. 3,25 % inklusive MwSt" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="pt-8">
+          <button type="button" onclick="exportFormToPDF()"
+            class="w-full luxury-button text-white py-4 rounded-xl font-semibold text-lg relative overflow-hidden">
+            <span class="relative z-10">expose erstellen</span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Footer -->
+    <div class="max-w-6xl mx-auto mt-12 text-center">
+      <div class="glass-effect rounded-2xl p-6">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+          <div class="flex items-center gap-3">
+            <div
+              class="w-10 h-10 rounded-full bg-gradient-to-r from-stone-200 to-stone-300 flex items-center justify-center">
+              <svg class="w-5 h-5" style="color: #8b7355" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M19 9.3V4h-3v2.6L12 3L2 12h3v8h6v-6h2v6h6v-8h3L19 9.3zm-9 .7c0-1.1.9-2 2-2s2 .9 2 2h-4z" />
+              </svg>
+            </div>
+            <div class="text-left">
+              <p class="font-semibold text-sm" style="color: #8b7355">
+                Premium Properties
+              </p>
+              <p class="text-xs" style="color: #959595">Luxus Immobilien</p>
+            </div>
+          </div>
+
+          <div class="text-center md:text-right">
+            <p class="text-sm" style="color: #959595">
+              © 2025 Premium Properties. Alle Rechte vorbehalten.
+            </p>
+            <p class="text-xs mt-1" style="color: #959595">
+              Exklusive Betreuung • Persönliche Beratung • Höchste Qualität
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/js/export.js"></script>
+  <script src="assets/js/form.js"></script>
+
+</body>
+
+</html>
