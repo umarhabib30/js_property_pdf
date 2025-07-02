@@ -33,6 +33,7 @@ async function exportFormToPDF() {
     kaufpreis: $("#kaufpreis").val(),
     courtage: $("#courtage").val(),
     beschreibung: $("#beschreibung").val(),
+    additionalParagraphs: $("#objektbeschreibung").val(), // <-- Add this line
   };
 
   const doc = new jsPDF();
@@ -243,17 +244,8 @@ async function exportFormToPDF() {
   });
 
   // Additional paragraph (black, larger)
-  const additionalParagraphs = `
-In einer der prestigeträchtigsten Lagen Hamburgs, direkt am südwestlichen Ufer der Außenalster, erwartet Sie ein außergewöhnliches Zuhause in einem 2021 errichteten Premium-Ensemble. Die moderne Architektur, gepaart mit einer hochwertigen Ausstattung und stilvollen Details, schafft ein Wohngefühl auf allerhöchstem Niveau. Bereits das beeindruckende Foyer mit ca. 5 Metern Deckenhöhe und Concierge-Service vermittelt ein Gefühl von Exklusivität und urbanem Luxus. Die insgesamt 21 Eigentumswohnungen verteilen sich harmonisch über das elegante Gebäude – ergänzt durch eine Tiefgarage mit 25 Stellplätzen. Ein Stellplatz ist im Kaufpreis dieser Wohnung enthalten.
-
-Rückseitig lädt eine gärtnerisch gestaltete Grünfläche zur gemeinschaftlichen Nutzung ein – ein geschützter Rückzugsort mitten in der Stadt. Die großzügige Loggia dieser Wohnung bietet einen einmaligen Ausblick über die Alster und erweitert den Wohnraum ins Freie.
-
-Die Wohnung im vierten Obergeschoss ist bequem per Aufzug erreichbar und überzeugt mit einem großzügig geschnittenen Wohn- und Essbereich, in den sich eine hochwertige Einbauküche nahtlos einfügt. Ein moderner Gaskamin sorgt in der kalten Jahreszeit für eine gemütliche Atmosphäre. Die Schlafzimmer liegen ruhig zum Innenhof und bieten dank bodentiefer Fenster viel Licht und einen Blick ins Grüne. Neben den stilvoll gestalteten Wohnräumen gibt es praktische Nebenräume sowie ein Gäste-WC.
-
-Die Bäder sind mit edlen Armaturen, maßgefertigten Waschtischen und großformatigen Fliesen ausgestattet und setzen stilvolle Akzente. Hochwertiger Eichenparkettboden mit Fußbodenheizung unterstreicht das durchgängig elegante Wohnkonzept.
-
-Diese Immobilie vereint hanseatische Zurückhaltung mit modernem Anspruch – perfekt für alle, die exklusiv, zentral und dennoch im Grünen wohnen möchten. Direkt vor der Tür lädt die Alster zum Spazierengehen, Joggen oder einfach zum Genießen ein. Ob kulturelle Highlights, renommierte Restaurants oder internationale Boutiquen – alles ist in wenigen Minuten erreichbar. Ein Lebensraum mit Seltenheitswert.
-`;
+  // Use the value from the form instead of the hardcoded string
+  const additionalParagraphs = objData.additionalParagraphs || "";
 
   doc.setFontSize(10); // or 12 if you want slightly larger
   doc.setFont("helvetica", "normal");
@@ -275,24 +267,40 @@ Diese Immobilie vereint hanseatische Zurückhaltung mit modernem Anspruch – pe
   // Fourth Page: Grundrissbild
   addHeaderFooter();
   if (floorImage) {
-    try {
-      const imageWidth = pageWidth * 0.7;
-      const xMargin = (pageWidth - imageWidth) / 2; // Proper centering
-      const imageHeight = 200;
-      const imageY = 50; // Vertical position
+  try {
+    const img = new Image();
+    img.src = floorImage;
 
-      doc.addImage(
-        floorImage,
-        "JPEG",
-        xMargin,
-        imageY,
-        imageWidth,
-        imageHeight
-      );
-    } catch (error) {
-      console.error("Error adding floor plan image:", error);
-    }
+    // Wait for the image to load before drawing it
+    await new Promise((resolve, reject) => {
+      img.onload = () => resolve();
+      img.onerror = reject;
+    });
+
+    const imgWidth = img.naturalWidth;
+    const imgHeight = img.naturalHeight;
+
+    const imageWidth = pageWidth * 0.7;
+    const xMargin = (pageWidth - imageWidth) / 2;
+
+    // Maintain aspect ratio
+    const aspectRatio = imgHeight / imgWidth;
+    const imageHeight = imageWidth * aspectRatio;
+
+    const imageY = 50;
+
+    doc.addImage(
+      floorImage,
+      "JPEG",
+      xMargin,
+      imageY,
+      imageWidth,
+      imageHeight
+    );
+  } catch (error) {
+    console.error("Error adding floor plan image:", error);
   }
+}
 
   // Weitere Bilder
   // Weitere Bilder
