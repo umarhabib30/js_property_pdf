@@ -4,12 +4,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/style.css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
     integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <!------jspdf cdn------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
@@ -19,9 +23,6 @@
     <!-- Logo Section -->
     <div class="max-w-6xl mx-auto mb-8 text-center">
       <div class="inline-flex items-center justify-center mb-4">
-        <!-- <svg class="w-10 h-10" style="color: #8b7355;" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M19 9.3V4h-3v2.6L12 3L2 12h3v8h6v-6h2v6h6v-8h3L19 9.3zm-9 .7c0-1.1.9-2 2-2s2 .9 2 2h-4z"/>
-          </svg> -->
         <img src="assets/images/logo-removebg-preview.png" class="h-25" alt="" />
       </div>
       <h1 class="text-4xl font-bold gradient-text mb-2">
@@ -347,9 +348,14 @@
     </div>
   </div>
 
+  <!-- loading images base64 for pdf -->
+  <script src="assets/js/logobase64.js"></script>
+  <script src="assets/js/ceobase64.js"></script>
+  <script src="assets/js/footerimagebase64.js"></script>
+
+  
   <script src="assets/js/export.js"></script>
   <script src="assets/js/form.js"></script>
-
 </body>
 
 </html>
